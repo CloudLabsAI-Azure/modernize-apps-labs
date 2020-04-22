@@ -12,21 +12,26 @@ import java.util.List;
 
 public class Transformers {
 
+    // -change-
+    public static JsonObject shoppingCartItemToJson(ShoppingCartItem item) {
+        return new JsonObject()
+                .put("product", productToJson(item.getProduct()))
+                .put("quantity", item.getQuantity());
+    }
+
+    // -change-
     public static JsonObject shoppingCartToJson(ShoppingCart cart) {
         JsonArray cartItems = new JsonArray();
-        cart.getShoppingCartItemList().forEach(item -> cartItems.add(new JsonObject()
-            .put("product",productToJson(item.getProduct()))
-            .put("quantity",item.getQuantity())
-        ));
+        cart.getShoppingCartItemList().forEach(item -> cartItems.add(shoppingCartItemToJson(item)));
 
         return new JsonObject()
-            .put("cartId",cart.getCartId())
-            .put("cartTotal", cart.getCartTotal())
-            .put("retailPrice", cart.getCartItemTotal())
-            .put("cartItemPromoSavings", cart.getCartItemPromoSavings())
-            .put("shippingTotal", cart.getShippingTotal())
-            .put("shippingPromoSavings", cart.getShippingPromoSavings())
-            .put("shoppingCartItemList",cartItems);
+                .put("cartId", cart.getCartId())
+                .put("cartTotal", cart.getCartTotal())
+                .put("retailPrice", cart.getCartItemTotal())
+                .put("cartItemPromoSavings", cart.getCartItemPromoSavings())
+                .put("shippingTotal", cart.getShippingTotal())
+                .put("shippingPromoSavings", cart.getShippingPromoSavings())
+                .put("shoppingCartItemList", cartItems);
     }
 
 
@@ -34,7 +39,7 @@ public class Transformers {
         ShoppingCart sc = new ShoppingCartImpl();
         List<ShoppingCartItem> sciList = new ArrayList<>();
         json.getJsonArray("shoppingCartItemList").forEach(item -> {
-            JsonObject itemJson  = (JsonObject) item;
+            JsonObject itemJson = (JsonObject) item;
             ShoppingCartItem sci = new ShoppingCartItemImpl();
             sci.setQuantity(itemJson.getInteger("quantity"));
             sci.setProduct(jsonToProduct(itemJson.getJsonObject("product")));
@@ -60,14 +65,14 @@ public class Transformers {
         return product;
     }
 
-    private static JsonObject productToJson(Product product) {
+    public static JsonObject productToJson(Product product) {
         JsonObject json = new JsonObject();
-        json.put("itemId",product.getItemId());
-        json.put("price",product.getPrice());
-        json.put("name",product.getName());
-        json.put("desc",product.getDesc());
-        json.put("location",product.getLocation());
-        json.put("link",product.getLink());
+        json.put("itemId", product.getItemId());
+        json.put("price", product.getPrice());
+        json.put("name", product.getName());
+        json.put("desc", product.getDesc());
+        json.put("location", product.getLocation());
+        json.put("link", product.getLink());
 
         return json;
     }
