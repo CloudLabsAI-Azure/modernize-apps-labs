@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<!--suppress ALL -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>CoolStore Shopping Cart</title>
+    <title>CoolStore Catalog</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
           integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css"
@@ -16,8 +15,9 @@
 <body>
 <div class="jumbotron">
     <div class="container">
-        <h1 class="display-3">CoolStore Shopping Cart</h1>
-        <p>This shows status of the shopping Carts.</p>
+        <h1 class="display-3">CoolStore Catalog</h1>
+        <p>This shows the latest CoolStore Catalog from the Catalog microservice using Spring Boot.
+        </p>
     </div>
 </div>
 <div class="container">
@@ -25,21 +25,23 @@
     <div class="row">
         <div class="col-md-12">
             <br><br>
-            <button class="btn btn-danger btn-lg" onclick="fetchCarts()">Fetch Carts</button>
+            <button class="btn btn-danger btn-lg" onclick="fetchCatalog()">Fetch Catalog</button>
             <hr>
             <center>
-                <h1>The CoolStore ShoppingCarts</h1>
+                <h1>The CoolStore Popular Items</h1>
             </center>
             <table class="table table-bordered" id="products" border='1'>
                 <tr>
-                    <th>Cart ID</th>
-                    <th>OrderValue</th>
-                    <th>Retail Price</th>
-                    <th>Number of items</th>
+                    <th>Item ID</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Inventory Quantity</th>
+                    <th>Popularity</th>
                 </tr>
             </table>
             <hr>
-            <button class="btn btn-danger btn-lg" onclick="fetchCarts()">Fetch Carts</button>
+            <button class="btn btn-danger btn-lg" onclick="fetchCatalog()">Fetch Catalog</button>
 
         </div>
     </div>
@@ -53,9 +55,9 @@
 
 
 <script
-    src="https://code.jquery.com/jquery-3.2.1.min.js"
-    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-    crossorigin="anonymous"></script>
+        src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timeago/1.6.1/jquery.timeago.min.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
@@ -69,12 +71,12 @@
 
     var lastFetch;
 
-    function fetchCarts() {
+    function fetchCatalog() {
 
         $.ajax(
             {
                 type: "GET",
-                url: '/services/carts',
+                url: '/services/populars',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 cache: false,
@@ -84,13 +86,15 @@
 
                     lastFetch = new Date().getTime();
 
-                    $.each(data, function (i, cart) {
+                    $.each(data, function (i, product) {
 
                         trHTML += '<tr>' +
-                            '<td>' + cart.cartId + '</td>' +
-                            '<td><strong>' + cart.cartTotal + '</strong></td>' +
-                            '<td>' + cart.retailPrice + '</a></td>' +
-                            '<td>' + cart.shoppingCartItemList.length + '</a></td>' +
+                            '<td>' + product.itemId + '</td>' +
+                            '<td><strong>' + product.name + '</strong></td>' +
+                            '<td>' + product.desc + '</a></td>' +
+                            '<td>' + product.price + '</a></td>' +
+                            '<td>' + product.quantity + '</a></td>' +
+                            '<td>' + product.popularity + '</a></td>' +
                             '</tr>';
                     });
 
@@ -112,10 +116,10 @@
     $(document).ready(function () {
         jQuery("time.timeago").timeago();
 
-        fetchCarts();
+        fetchCatalog();
 
         setInterval(function() {
-            fetchCarts();
+            fetchCatalog();
         }, 2000);
     })
 
