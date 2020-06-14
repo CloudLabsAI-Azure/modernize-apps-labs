@@ -74,7 +74,7 @@
 
     <dependencies>
 
-<!-- Add monitor fraction -->
+<!-- Add monitor extension -->
       
        <dependency>
             <groupId>io.quarkus</groupId>
