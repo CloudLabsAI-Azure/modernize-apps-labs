@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project 
-    xmlns="http://maven.apache.org/POM/4.0.0" 
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.redhat.coolstore</groupId>
@@ -32,6 +32,11 @@
             <artifactId>flyway-core</artifactId>
             <version>4.1.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.jboss.spec.javax.rmi</groupId>
+            <artifactId>jboss-rmi-api_1.0_spec</artifactId>
+            <version>1.0.2.Final</version>
+        </dependency>
     </dependencies>
     <build>
         <finalName>ROOT</finalName>
@@ -54,6 +59,6 @@
         </plugins>
     </build>
     <profiles>
-<!-- TODO: Add OpenShift profile here --> 
+<!-- TODO: Add OpenShift profile here -->
     </profiles>
 </project>
